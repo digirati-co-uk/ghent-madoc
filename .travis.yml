@@ -9,7 +9,7 @@ before_install:
 
 install:
   - travis_retry docker-compose pull
-  - docker build -t example-madoc-config .
+  - docker build -t ghent-madoc-config services/madoc
 
 before_script:
   - pip install --user awscli
@@ -28,7 +28,6 @@ cache:
   directories:
     - $HOME/docker
     - $HOME/.local
-
 
 # Example of Docker deployment (push to docker + optional ECS)
 #deploy:
