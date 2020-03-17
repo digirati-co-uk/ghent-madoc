@@ -9,7 +9,8 @@ before_install:
 
 install:
   - travis_retry docker-compose pull
-  - docker build -t ghent-madoc-config services/madoc
+  - docker build -t digirati/ghent-madoc services/madoc
+  - docker build -t digirati/ghent-madoc-db services/madoc-database
 
 before_script:
   - pip install --user awscli
@@ -30,12 +31,16 @@ cache:
     - $HOME/.local
 
 # Example of Docker deployment (push to docker + optional ECS)
-#deploy:
-#  # Publishing tags
-#  - provider: script
-#    script: bash ./.travis/docker-deploy.sh digirati/nlw-madoc
-#    on:
-#      tags: true
+deploy:
+  # Publishing tags
+  - provider: script
+    script: bash ./.travis/docker-deploy.sh digirati/ghent-madoc
+    on:
+      tags: true
+  - provider: script
+    script: bash ./.travis/docker-deploy.sh digirati/ghent-madoc-db
+    on:
+      tags: true
 
 if: |
   branch = master OR \

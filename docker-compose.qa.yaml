@@ -1,25 +1,81 @@
-version: '3'
-services:     
+version: "3"
+services:
+
+  gateway:
+    image: digirati/madoc-gateway-beta:a95b720
+    environment:
+      - TYK_GW_STORAGE_HOST=gateway-redis
+      - TYK_GW_SECRET=${GATEWAY_SECRET}
+    ports:
+      - "80:8080"
+    links:
+      - sorting-room
+      - madoc
+      - gateway-redis
+      - tasks-api
+      - model-api
+
   madoc:
-    image: digirati/madoc-platform:latest
+    image: digirati/ghent-madoc:latest
     links:
       - madoc-database
     environment:
-      - APP_ENV=PROD
-      - OMEKA__DATABASE_HOST=omeka_db
+      - APP_ENV=${APP_ENV}
+      - OMEKA__DATABASE_HOST=madoc-database
       - OMEKA__DATABASE_NAME=${MYSQL_DATABASE}
       - OMEKA__DATABASE_USER=${MYSQL_USER}
       - OMEKA__DATABASE_PASSWORD=${MYSQL_PASSWORD}
       - OMEKA__DATABASE_PORT=${MYSQL_PORT}
-      - OMEKA__MAIN_SITE_DOMAIN=${MADOC_DOMAIN}
-    ports:
-      - "80:80"
+      - OMEKA__MAIN_SITE_DOMAIN=${MAIN_SITE_DOMAIN}
+      - OMEKA__INTERNAL_URL=${OMEKA_INTERNAL_URL}
     volumes:
       - /opt/data/omeka_files:/srv/omeka/files:Z
 
+  tasks-api:
+    image: digirati/madoc-tasks-api-beta:a95b720
+    environment:
+      - SERVER_PORT=3000
+      - DATABASE_HOST=shared-postgres
+      - DATABASE_NAME=tasks_api
+      - DATABASE_PORT=5432
+      - DATABASE_USER=tasks_api
+      - DATABASE_SCHEMA=public
+      - DATABASE_PASSWORD=tasks_api_password
+    restart: "always"
+    links:
+      - shared-postgres
+
+  model-api:
+    image: digirati/capture-models:v0.1.1
+    environment:
+      - SERVER_PORT=3000
+      - DATABASE_HOST=shared-postgres
+      - DATABASE_NAME=model_api
+      - DATABASE_PORT=5432
+      - DATABASE_USER=model_api
+      - DATABASE_SCHEMA=public
+      - DATABASE_PASSWORD=model_api_password
+    restart: "always"
+    links:
+      - shared-postgres
+
+  shared-postgres:
+    image: digirati/madoc-shared-postgres-beta:a95b720
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+      - TASKS_API_PASSWORD=tasks_api_password
+      - MODEL_API_PASSWORD=model_api_password
+    volumes:
+      - ./opt/data/shared_postgres_data:/var/lib/postgresql/data:Z
+
+  sorting-room:
+    image: digirati/madoc-sorting-room-beta:a95b720
+
+  gateway-redis:
+    image: redis:4.0-alpine
+
   madoc-database:
-    container_name: omeka_db
-    image: digirati/madoc-platform-db:latest
+    image: digirati/ghent-madoc-db:latest
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=${MYSQL_DATABASE}
