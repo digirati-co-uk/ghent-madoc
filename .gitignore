@@ -2,3 +2,5 @@ var/es
 var/files
 !var/.gitkeep
 .terraform
+var/shared-database
+var/mysql
