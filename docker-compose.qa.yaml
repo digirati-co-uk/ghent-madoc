@@ -20,7 +20,7 @@ services:
     links:
       - madoc-database
     environment:
-      - APP_ENV=${APP_ENV}
+      - APP_ENV=QA
       - OMEKA__DATABASE_HOST=madoc-database
       - OMEKA__DATABASE_NAME=${MYSQL_DATABASE}
       - OMEKA__DATABASE_USER=${MYSQL_USER}
