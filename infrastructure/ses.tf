@@ -2,8 +2,15 @@ locals {
     zone_id = data.aws_route53_zone.ghent_madoc_io.zone_id
 }
 
+provider "aws" {
+  alias = "west"
+  version = "~> 2.46"
+  region  = "eu-west-1"
+}
+
 # domain verification
 resource "aws_ses_domain_identity" "ghent_madoc_io" {
+  provider = aws.west
   domain = var.madoc_domain
 }
 
@@ -17,14 +24,15 @@ resource "aws_route53_record" "ses_verification" {
 
 resource "aws_ses_domain_identity_verification" "ghent_madoc_io_verification" {
   domain = aws_ses_domain_identity.ghent_madoc_io.id
+  provider = aws.west
 
   depends_on = [aws_route53_record.ses_verification]
 }
 
-
 # DKIM verification
 resource "aws_ses_domain_dkim" "main" {
   domain = aws_ses_domain_identity.ghent_madoc_io.domain
+  provider = aws.west
 }
 
 resource "aws_route53_record" "dkim" {
@@ -44,6 +52,7 @@ resource "aws_route53_record" "dkim" {
 resource "aws_ses_domain_mail_from" "noreply" {
   domain           = aws_ses_domain_identity.ghent_madoc_io.domain
   mail_from_domain = "mail.${var.madoc_domain}"
+  provider = aws.west
 }
 
 # SPF validaton record
