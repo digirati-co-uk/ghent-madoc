@@ -2,7 +2,7 @@ version: "3"
 services:
 
   gateway:
-    image: digirati/madoc-gateway-beta:a95b720
+    image: digirati/madoc-gateway-beta:545b783
     environment:
       - TYK_GW_STORAGE_HOST=gateway-redis
       - TYK_GW_SECRET=${GATEWAY_SECRET}
@@ -37,7 +37,7 @@ services:
       - /opt/data/omeka_files:/srv/omeka/files:Z
 
   tasks-api:
-    image: digirati/madoc-tasks-api-beta:a95b720
+    image: digirati/madoc-tasks-api-beta:545b783
     environment:
       - SERVER_PORT=3000
       - DATABASE_HOST=shared-postgres
@@ -51,7 +51,7 @@ services:
       - shared-postgres
 
   model-api:
-    image: digirati/capture-models:v0.1.1
+    image: digirati/capture-models:v0.2.0
     environment:
       - SERVER_PORT=3000
       - DATABASE_HOST=shared-postgres
@@ -65,7 +65,7 @@ services:
       - shared-postgres
 
   shared-postgres:
-    image: digirati/madoc-shared-postgres-beta:a95b720
+    image: digirati/madoc-shared-postgres-beta:545b783
     environment:
       - POSTGRES_PASSWORD=postgres_password
       - TASKS_API_PASSWORD=tasks_api_password
@@ -74,7 +74,7 @@ services:
       - ./opt/data/shared_postgres_data:/var/lib/postgresql/data:Z
 
   sorting-room:
-    image: digirati/madoc-sorting-room-beta:a95b720
+    image: digirati/madoc-sorting-room-beta:545b783
 
   gateway-redis:
     image: redis:4.0-alpine
