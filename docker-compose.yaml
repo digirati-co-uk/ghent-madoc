@@ -51,7 +51,7 @@ services:
       - shared-postgres
 
   model-api:
-    image: digirati/capture-models:v0.2.1
+    image: digirati/capture-models:v0.2.2
     environment:
       - SERVER_PORT=3000
       - DATABASE_HOST=shared-postgres
