@@ -1,5 +1,5 @@
 # This is a pre-release
-FROM digirati/madoc-platform-beta:545b783
+FROM digirati/madoc-platform-beta:v2
 
 # Add our theme
 ADD --chown=www-data:www-data ghent-madoc-theme /srv/omeka/themes/ghent-madoc-theme
