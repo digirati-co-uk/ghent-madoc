@@ -4,3 +4,5 @@ var/files
 .terraform
 var/shared-database
 var/mysql
+var/certs
+var/jwt
