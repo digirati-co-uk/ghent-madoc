@@ -11,7 +11,7 @@ set -ex
 [[ "$(curl -sS "http://localhost:8898/crowdsourcing-editor" --output /dev/null --write-out '%{http_code}' 2>&1)" == "200" ]]
 
 # Tasks API
-[[ "$(curl -sS "http://localhost:8898/api/tasks" --output /dev/null --write-out '%{http_code}' 2>&1)" == "200" ]]
+[[ "$(curl -sS "http://localhost:8898/api/tasks" --output /dev/null --write-out '%{http_code}' 2>&1)" == "400" ]]
 
 # Sorting room
 [[ "$(curl -sS "http://localhost:8898/sorting-room/login.html" --output /dev/null --write-out '%{http_code}' 2>&1)" == "200" ]]
