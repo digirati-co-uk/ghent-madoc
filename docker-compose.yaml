@@ -47,7 +47,7 @@ services:
   certs:
     image: digirati/madoc-certs-beta:v2
     volumes:
-      - ./var/certs:/openssl-certs
+      - ./var/certs:/openssl-certs:Z
 
   madoc-ts:
     image: digirati/madoc-ts-beta:v2
