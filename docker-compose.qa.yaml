@@ -72,6 +72,7 @@ services:
       - REDIS_HOST=gateway-redis
       - API_GATEWAY=http://gateway:8080
       - OMEKA_FILE_DIRECTORY=/home/node/app/omeka-files
+      - NODE_ENV=production
     links:
       - shared-postgres
       - madoc-database

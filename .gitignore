@@ -5,3 +5,4 @@ var/files
 var/shared-database
 var/mysql
 var/certs
+var/jwt
