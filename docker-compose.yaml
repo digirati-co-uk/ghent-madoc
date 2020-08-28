@@ -6,7 +6,7 @@ services:
     environment:
       - TYK_GW_STORAGE_HOST=gateway-redis
       - TYK_GW_SECRET=${GATEWAY_SECRET}
-      - JWT_SERVICES=tasks-api,madoc-api,configuration-api
+      - JWT_SERVICES=tasks-api,madoc-api,configuration-api,storage-api
     ports:
       - "80:8080"
     links:
@@ -17,6 +17,7 @@ services:
       - model-api
       - madoc-ts
       - config-service
+      - storage-api
     volumes:
       - ./var/certs:/openssl-certs:Z
     depends_on:
@@ -75,6 +76,7 @@ services:
       - OMEKA_FILE_DIRECTORY=/home/node/app/omeka-files
       - NODE_ENV=production
       - MIGRATE=true
+      - GATEWAY_HOST=http://ghent.madoc.io
     links:
       - shared-postgres
       - madoc-database
@@ -100,7 +102,7 @@ services:
       - gateway-redis
 
   model-api:
-    image: digirati/capture-models:v0.6.0
+    image: digirati/capture-models:v0.8.2
     restart: on-failure
     environment:
       - SERVER_PORT=3000
@@ -176,3 +178,8 @@ services:
     volumes:
       - /opt/data/configuration/schemas:/app/configurator/schemas
       - /opt/data/configuration/defaults:/app/configurator/default_config
+  
+  storage-api:
+    image: digirati/madoc-storage-api-beta:v2
+    volumes:
+      - /opt/data/omeka_files/storage-api:/home/node/app/files
