@@ -12,6 +12,7 @@ EnvironmentFile=/etc/madoc-environment
 # Remove old containers, images and volumes
 ExecStartPre=/usr/bin/docker-compose down -v
 ExecStartPre=/usr/bin/docker-compose rm -fv
+ExecStartPre=-/bin/bash -c 'docker system prune'
 ExecStartPre=-/bin/bash -c 'docker network ls -qf "name=madoc" | xargs docker network rm'
 ExecStartPre=-/bin/bash -c 'docker ps -aqf "name=madoc" | xargs docker rm'
 

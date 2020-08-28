@@ -10,6 +10,8 @@ locals {
   }
 
   account_id = data.aws_caller_identity.current.account_id
+
+  ami = "ami-0b3566b9ddcb56ee3"
 }
 
 variable "region" {

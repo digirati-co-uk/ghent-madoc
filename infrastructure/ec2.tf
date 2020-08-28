@@ -58,24 +58,8 @@ resource "aws_key_pair" "auth" {
 }
 
 # EC2 Instance
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
 resource "aws_instance" "madoc" {
-  ami           = data.aws_ami.ubuntu.id
+  ami           = local.ami
   instance_type = var.instance_type
 
   vpc_security_group_ids = [
@@ -110,6 +94,12 @@ resource "aws_instance" "madoc" {
   provisioner "file" {
     source      = "./files/backup"
     destination = "/tmp"
+  }
+
+  # base .env file
+  provisioner "file" {
+    source      = "./files/.env"
+    destination = "/tmp/.env"
   }
 
   connection {
