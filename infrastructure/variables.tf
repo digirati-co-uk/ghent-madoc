@@ -14,6 +14,15 @@ locals {
   ami = "ami-0b3566b9ddcb56ee3"
 }
 
+variable egress_whitelist {
+  type        = list(string)
+  description = "List of whitelisted CIDR ranges for SSH access"
+
+  default = [
+    "62.254.125.26/32" # Digirati Glasgow VPN
+  ]
+}
+
 variable "region" {
   type        = string
   description = "AWS region"
