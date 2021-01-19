@@ -104,7 +104,7 @@ services:
       - gateway-redis
 
   model-api:
-    image: digirati/capture-models:v0.11.0
+    image: digirati/capture-models:latest
     restart: on-failure
     environment:
       - SERVER_PORT=3000
@@ -205,7 +205,7 @@ services:
       - shared-postgres
 
   okra:
-    image: digirati/okra:10c474a
+    image: digirati/okra:5d129c8
 
   storage-api:
     image: digirati/madoc-storage-api-beta:v2
