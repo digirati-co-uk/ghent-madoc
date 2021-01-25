@@ -74,7 +74,7 @@ variable "ebs_backup_times" {
 variable "instance_type" {
   type        = string
   description = "Instance size of EC2 instance"
-  default     = "t2.small"
+  default     = "t2.medium"
 }
 
 variable "docker_compose_file" {
