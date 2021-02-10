@@ -14,6 +14,15 @@ locals {
   ami = "ami-0b3566b9ddcb56ee3"
 }
 
+variable egress_whitelist {
+  type        = list(string)
+  description = "List of whitelisted CIDR ranges for SSH access"
+
+  default = [
+    "62.254.125.26/32" # Digirati Glasgow VPN
+  ]
+}
+
 variable "region" {
   type        = string
   description = "AWS region"
@@ -65,7 +74,7 @@ variable "ebs_backup_times" {
 variable "instance_type" {
   type        = string
   description = "Instance size of EC2 instance"
-  default     = "t2.small"
+  default     = "t2.medium"
 }
 
 variable "docker_compose_file" {
